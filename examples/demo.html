@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo - Integração Intranet Desktop</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #007ACC;
+            border-bottom: 2px solid #007ACC;
+            padding-bottom: 10px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background-color: #007ACC;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #005a9e;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .result-area {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        
+        .status.online {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.offline {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .photo-preview {
+            max-width: 300px;
+            max-height: 200px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .device-list {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .device-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .device-item:last-child {
+            border-bottom: none;
+        }
+        
+        .device-name {
+            font-weight: 600;
+        }
+        
+        .device-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+        }
+        
+        .device-status.available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .device-status.busy {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .device-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exemplo de Integração - Intranet Desktop</h1>
+        
+        <div id="connection-status" class="status offline">
+            🔴 Verificando conexão com desktop...
+        </div>
+    </div>
+
+    <!-- Seção de Impressoras -->
+    <div class="container">
+        <div class="section">
+            <h2>🖨️ Impressoras</h2>
+            <div class="button-group">
+                <button id="btn-list-printers" class="btn-primary">Listar Impressoras</button>
+                <button id="btn-print-test" class="btn-success">Teste de Impressão</button>
+                <button id="btn-print-html" class="btn-warning">Imprimir HTML</button>
+            </div>
+            <div id="printers-result" class="result-area"></div>
+        </div>
+    </div>
+
+    <!-- Seção de Câmeras -->
+    <div class="container">
+        <div class="section">
+            <h2>📷 Câmeras</h2>
+            <div class="button-group">
+                <button id="btn-list-cameras" class="btn-primary">Listar Câmeras</button>
+                <button id="btn-capture-photo" class="btn-success">Capturar Foto</button>
+                <button id="btn-start-stream" class="btn-warning">Iniciar Stream</button>
+            </div>
+            <div id="cameras-result" class="result-area"></div>
+            <img id="captured-photo" class="photo-preview" style="display: none;" alt="Foto Capturada">
+        </div>
+    </div>
+
+    <!-- Seção USB -->
+    <div class="container">
+        <div class="section">
+            <h2>🔌 Dispositivos USB</h2>
+            <div class="button-group">
+                <button id="btn-list-usb" class="btn-primary">Listar Dispositivos USB</button>
+                <button id="btn-monitor-usb" class="btn-warning">Monitorar USB</button>
+            </div>
+            <div id="usb-result" class="result-area"></div>
+        </div>
+    </div>
+
+    <!-- Seção Serial -->
+    <div class="container">
+        <div class="section">
+            <h2>🔗 Comunicação Serial</h2>
+            <div class="button-group">
+                <button id="btn-list-serial" class="btn-primary">Listar Portas</button>
+                <button id="btn-serial-test" class="btn-success">Teste Serial</button>
+            </div>
+            <div>
+                <label for="serial-port">Porta:</label>
+                <select id="serial-port">
+                    <option value="">Selecione uma porta...</option>
+                </select>
+                <input type="text" id="serial-data" placeholder="Dados para enviar" style="margin-left: 10px; padding: 5px;">
+                <button id="btn-serial-send" class="btn-warning">Enviar</button>
+            </div>
+            <div id="serial-result" class="result-area"></div>
+        </div>
+    </div>
+
+    <!-- Console de Logs -->
+    <div class="container">
+        <div class="section">
+            <h2>📋 Console de Logs</h2>
+            <button id="btn-clear-logs" class="btn-warning">Limpar</button>
+            <div id="console-logs" class="result-area"></div>
+        </div>
+    </div>
+
+    <script src="web-integration.js"></script>
+    <script>
+        // Logs no console personalizado
+        function logToConsole(message, type = 'info') {
+            const consoleElement = document.getElementById('console-logs');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+            
+            consoleElement.textContent += logEntry;
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        // Override console methods
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            logToConsole(args.join(' '), 'info');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            logToConsole(args.join(' '), 'error');
+        };
+
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            logToConsole(args.join(' '), 'warn');
+        };
+
+        // Inicialização customizada
+        document.addEventListener('DOMContentLoaded', async () => {
+            await desktopClient.initialize();
+            
+            // Verificar status da conexão
+            updateConnectionStatus();
+            
+            // Configurar todos os botões
+            setupAllButtons();
+            
+            logToConsole('Interface inicializada');
+        });
+
+        async function updateConnectionStatus() {
+            const statusElement = document.getElementById('connection-status');
+            const isConnected = await desktopClient.testConnection();
+            
+            if (isConnected) {
+                statusElement.className = 'status online';
+                statusElement.textContent = '🟢 Conectado ao desktop';
+            } else {
+                statusElement.className = 'status offline';
+                statusElement.textContent = '🔴 Desktop não conectado (modo navegador)';
+            }
+        }
+
+        function setupAllButtons() {
+            // Impressoras
+            setupPrinterButtons();
+            
+            // Câmeras
+            setupCameraButtons();
+            
+            // USB
+            setupUSBButtons();
+            
+            // Serial
+            setupSerialButtons();
+            
+            // Console
+            document.getElementById('btn-clear-logs').addEventListener('click', () => {
+                document.getElementById('console-logs').textContent = '';
+            });
+        }
+
+        function setupPrinterButtons() {
+            document.getElementById('btn-list-printers').addEventListener('click', async () => {
+                try {
+                    logToConsole('Listando impressoras...');
+                    const printers = await desktopClient.getPrinters();
+                    
+                    const resultElement = document.getElementById('printers-result');
+                    resultElement.textContent = JSON.stringify(printers, null, 2);
+                    
+                    logToConsole(`Encontradas ${printers.length} impressoras`);
+                } catch (error) {
+                    console.error('Erro ao listar impressoras:', error);
+                    document.getElementById('printers-result').textContent = `Erro: ${error.message}`;
+                }
+            });
+
+            document.getElementById('btn-print-test').addEventListener('click', async () => {
+                try {
+                    logToConsole('Iniciando teste de impressão...');
+                    const text = `Teste de Impressão - Intranet Desktop\n\nData: ${new Date().toLocaleString()}\nTeste realizado com sucesso!`;
+                    
+                    const success = await desktopClient.printText(text);
+                    
+                    if (success) {
+                        logToConsole('Documento enviado para impressão!');
+                        alert('Documento enviado para impressão!');
+                    } else {
+                        logToConsole('Erro ao imprimir documento');
+                        alert('Erro ao imprimir documento');
+                    }
+                } catch (error) {
+                    console.error('Erro na impressão:', error);
+                }
+            });
+
+            document.getElementById('btn-print-html').addEventListener('click', async () => {
+                try {
+                    const html = `
+                        <html>
+                        <head><title>Teste HTML</title></head>
+                        <body>
+                            <h1>Teste de Impressão HTML</h1>
+                            <p>Data: ${new Date().toLocaleString()}</p>
+                            <ul>
+                                <li>Item 1</li>
+                                <li>Item 2</li>
+                                <li>Item 3</li>
+                            </ul>
+                        </body>
+                        </html>
+                    `;
+                    
+                    const success = await desktopClient.printHTML(html);
+                    logToConsole(success ? 'HTML impresso com sucesso!' : 'Erro ao imprimir HTML');
+                } catch (error) {
+                    console.error('Erro na impressão HTML:', error);
+                }
+            });
+        }
+
+        function setupCameraButtons() {
+            document.getElementById('btn-list-cameras').addEventListener('click', async () => {
+                try {
+                    logToConsole('Listando câmeras...');
+                    const cameras = await desktopClient.getCameras();
+                    
+                    document.getElementById('cameras-result').textContent = JSON.stringify(cameras, null, 2);
+                    logToConsole(`Encontradas ${cameras.length} câmeras`);
+                } catch (error) {
+                    console.error('Erro ao listar câmeras:', error);
+                }
+            });
+
+            document.getElementById('btn-capture-photo').addEventListener('click', async () => {
+                try {
+                    logToConsole('Capturando foto...');
+                    const photo = await desktopClient.capturePhoto();
+                    
+                    if (photo && photo.startsWith('data:image')) {
+                        const img = document.getElementById('captured-photo');
+                        img.src = photo;
+                        img.style.display = 'block';
+                        logToConsole('Foto capturada com sucesso!');
+                    } else {
+                        logToConsole('Foto capturada (arquivo): ' + photo);
+                    }
+                } catch (error) {
+                    console.error('Erro ao capturar foto:', error);
+                }
+            });
+        }
+
+        function setupUSBButtons() {
+            document.getElementById('btn-list-usb').addEventListener('click', async () => {
+                try {
+                    logToConsole('Listando dispositivos USB...');
+                    const devices = await desktopClient.getUSBDevices();
+                    
+                    document.getElementById('usb-result').textContent = JSON.stringify(devices, null, 2);
+                    logToConsole(`Encontrados ${devices.length} dispositivos USB`);
+                } catch (error) {
+                    console.error('Erro ao listar USB:', error);
+                }
+            });
+        }
+
+        function setupSerialButtons() {
+            document.getElementById('btn-list-serial').addEventListener('click', async () => {
+                try {
+                    logToConsole('Listando portas seriais...');
+                    const ports = await desktopClient.getSerialPorts();
+                    
+                    // Atualizar lista de portas
+                    const select = document.getElementById('serial-port');
+                    select.innerHTML = '<option value="">Selecione uma porta...</option>';
+                    
+                    ports.forEach(port => {
+                        const option = document.createElement('option');
+                        option.value = port.path;
+                        option.textContent = `${port.path} (${port.friendlyName || 'Sem nome'})`;
+                        select.appendChild(option);
+                    });
+                    
+                    document.getElementById('serial-result').textContent = JSON.stringify(ports, null, 2);
+                    logToConsole(`Encontradas ${ports.length} portas seriais`);
+                } catch (error) {
+                    console.error('Erro ao listar portas seriais:', error);
+                }
+            });
+
+            document.getElementById('btn-serial-send').addEventListener('click', async () => {
+                try {
+                    const port = document.getElementById('serial-port').value;
+                    const data = document.getElementById('serial-data').value;
+                    
+                    if (!port || !data) {
+                        alert('Selecione uma porta e digite os dados');
+                        return;
+                    }
+                    
+                    logToConsole(`Enviando dados para ${port}: ${data}`);
+                    const success = await desktopClient.serialWrite(port, data);
+                    
+                    if (success) {
+                        logToConsole('Dados enviados com sucesso!');
+                        document.getElementById('serial-data').value = '';
+                    } else {
+                        logToConsole('Erro ao enviar dados');
+                    }
+                } catch (error) {
+                    console.error('Erro na comunicação serial:', error);
+                }
+            });
+        }
+
+        // Configurar callbacks personalizados
+        desktopClient.onDeviceConnected = function(device) {
+            logToConsole(`Dispositivo conectado: ${device.name || device.deviceId}`);
+        };
+
+        desktopClient.onDeviceDisconnected = function(device) {
+            logToConsole(`Dispositivo desconectado: ${device.name || device.deviceId}`);
+        };
+
+        desktopClient.onSerialData = function(port, data) {
+            logToConsole(`Dados recebidos de ${port}: ${data}`);
+        };
+    </script>
+</body>
+</html>
