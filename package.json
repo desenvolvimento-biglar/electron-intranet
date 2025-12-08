@@ -62,7 +62,15 @@
     "files": [
       "dist/**/*",
       "assets/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "naps2-profile/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "installers/",
+        "to": "installers/",
+        "filter": ["**/*"]
+      }
     ],
     "win": {
       "target": "nsis",
@@ -70,7 +78,12 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Intranet Desktop",
+      "include": "installer/nsis-script.nsh"
     }
   }
 }
