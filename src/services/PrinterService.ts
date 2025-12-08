@@ -232,7 +232,7 @@ export class PrinterService extends DeviceService {
       const { execSync } = require('child_process');
       
       // Usar PowerShell para obter lista de impressoras
-      const command = 'Get-Printer | ConvertTo-Json';
+      const command = 'powershell.exe -Command "Get-Printer | ConvertTo-Json"';
       const output = execSync(command, { encoding: 'utf8' });
       const printersData = JSON.parse(output);
       
@@ -266,8 +266,8 @@ export class PrinterService extends DeviceService {
     try {
       const { execSync } = require('child_process');
       
-      // Método alternativo usando wmic
-      const command = 'wmic printer get Name,Status,Default /format:csv';
+      // Método alternativo usando PowerShell
+      const command = 'powershell.exe -Command "Get-CimInstance -ClassName Win32_Printer | Select-Object Name, WorkOffline, Default | ConvertTo-Json"';
       const output = execSync(command, { encoding: 'utf8' });
       
       const lines = output.split('\n').filter((line: string) => line.trim() && !line.startsWith('Node'));

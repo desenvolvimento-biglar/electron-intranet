@@ -1,10 +1,24 @@
 import { app, BrowserWindow, ipcMain, dialog, Menu, shell } from 'electron';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
+
+// Suprimir warnings de N-API das bibliotecas opcionais (USB, Serial, etc.)
+const originalEmitWarning = process.emitWarning;
+process.emitWarning = (warning: any, ...args: any[]) => {
+  if (typeof warning === 'string' && warning.includes('N-API')) return;
+  if (warning?.message?.includes('N-API')) return;
+  return originalEmitWarning.call(process, warning, ...args);
+};
+
+// Carrega variáveis de ambiente do arquivo .env automaticamente
+dotenv.config({ path: path.join(__dirname, '../../.env') });
+
 import { DeviceService } from '../services/DeviceService';
 import { PrinterService } from '../services/PrinterService';
 import { CameraService } from '../services/CameraService';
 import { USBService } from '../services/USBService';
 import { SerialService } from '../services/SerialService';
+import { ScannerService } from '../services/ScannerService';
 import { ApiServer } from '../api/ApiServer';
 
 class MainProcess {
@@ -13,6 +27,7 @@ class MainProcess {
   private cameraService: CameraService;
   private usbService: USBService;
   private serialService: SerialService;
+  private scannerService: ScannerService;
   private apiServer: ApiServer;
 
   constructor() {
@@ -21,6 +36,7 @@ class MainProcess {
     this.cameraService = new CameraService();
     this.usbService = new USBService();
     this.serialService = new SerialService();
+    this.scannerService = new ScannerService();
     this.apiServer = new ApiServer();
 
     this.initializeApp();
@@ -61,6 +77,9 @@ class MainProcess {
       show: false
     });
 
+    // Maximiza a janela ao iniciar
+    this.mainWindow.maximize();
+
     // Carrega a URL da aplicação web ou arquivo local
     const webUrl = process.env.WEB_URL || 'http://localhost:3000';
     this.mainWindow.loadURL(webUrl);
@@ -80,6 +99,14 @@ class MainProcess {
     if (process.env.NODE_ENV === 'development') {
       this.mainWindow.webContents.openDevTools();
     }
+
+    // Atalhos de teclado globais
+    this.mainWindow.webContents.on('before-input-event', (event, input) => {
+      // Ctrl+Shift+S para abrir diálogo de scanner
+      if (input.control && input.shift && input.key.toLowerCase() === 's') {
+        this.scannerService.openScannerDialog(this.mainWindow!);
+      }
+    });
   }
 
   private setupMenu(): void {
@@ -87,13 +114,13 @@ class MainProcess {
       {
         label: 'Arquivo',
         submenu: [
-          {
-            label: 'Configurações',
-            click: () => {
-              this.openConfigDialog();
-            }
-          },
-          { type: 'separator' },
+          // {
+          //   label: 'Configurações',
+          //   click: () => {
+          //     this.openConfigDialog();
+          //   }
+          // },
+          // { type: 'separator' },
           {
             label: 'Sair',
             accelerator: 'CmdOrCtrl+Q',
@@ -107,28 +134,41 @@ class MainProcess {
         label: 'Dispositivos',
         submenu: [
           {
-            label: 'Listar Impressoras',
+            label: 'Configurar Scanner',
             click: () => {
-              this.listPrinters();
-            }
-          },
-          {
-            label: 'Testar Câmera',
-            click: () => {
-              this.testCamera();
-            }
-          },
-          {
-            label: 'Verificar USB',
-            click: () => {
-              this.checkUSBDevices();
+              this.scannerService.openScannerDialog(this.mainWindow!);
             }
           }
+          // {
+          //   label: 'Listar Impressoras',
+          //   click: () => {
+          //     this.listPrinters();
+          //   }
+          // },
+          // {
+          //   label: 'Testar Câmera',
+          //   click: () => {
+          //     this.testCamera();
+          //   }
+          // },
+          // {
+          //   label: 'Verificar USB',
+          //   click: () => {
+          //     this.checkUSBDevices();
+          //   }
+          // }
         ]
       },
       {
         label: 'Ajuda',
         submenu: [
+          {
+            label: 'Atalhos',
+            click: () => {
+              this.showShortcuts();
+            }
+          },
+          { type: 'separator' },
           {
             label: 'Sobre',
             click: () => {
@@ -171,6 +211,36 @@ class MainProcess {
 
     ipcMain.handle('serial-write', async (event, port, data) => {
       return await this.serialService.write(port, data);
+    });
+
+    ipcMain.handle('get-scanners', async () => {
+      return await this.scannerService.getScanners();
+    });
+
+    ipcMain.handle('check-scanner-connection', async () => {
+      return await this.scannerService.checkScannerConnection();
+    });
+
+    ipcMain.handle('set-default-scanner', async (event, scannerId) => {
+      return await this.scannerService.setDefaultScanner(scannerId);
+    });
+
+    ipcMain.handle('test-scanner', async (event, scannerId) => {
+      return await this.scannerService.testScanner(scannerId);
+    });
+
+    ipcMain.handle('scan-document', async (event, scannerId, options) => {
+      return await this.scannerService.scan(scannerId, options);
+    });
+
+    ipcMain.handle('open-scanner-dialog', async () => {
+      await this.scannerService.openScannerDialog(this.mainWindow!);
+    });
+
+    ipcMain.handle('start-scanner', async (event, duplex) => {
+      const result = await this.scannerService.startScanning(duplex);
+      // Envia resposta de volta para o renderer
+      this.mainWindow?.webContents.send('scanner-response', result);
     });
 
     // Handlers gerais
@@ -238,6 +308,15 @@ class MainProcess {
       type: 'info',
       title: 'Dispositivos USB',
       message: `Encontrados ${devices.length} dispositivos USB conectados`
+    });
+  }
+
+  private showShortcuts(): void {
+    dialog.showMessageBox(this.mainWindow!, {
+      type: 'info',
+      title: 'Atalhos de Teclado',
+      message: 'Atalhos Disponíveis:',
+      detail: 'Ctrl+Shift+S - Abrir configurações de scanner\nCtrl+Q - Sair da aplicação'
     });
   }
 

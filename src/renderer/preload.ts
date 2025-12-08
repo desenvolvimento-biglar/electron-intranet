@@ -14,6 +14,21 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getSerialPorts: () => ipcRenderer.invoke('get-serial-ports'),
   serialWrite: (port: string, data: string) => ipcRenderer.invoke('serial-write', port, data),
   
+  // APIs de scanner
+  getScanners: () => ipcRenderer.invoke('get-scanners'),
+  checkScannerConnection: () => ipcRenderer.invoke('check-scanner-connection'),
+  startScanner: (duplex: boolean) => ipcRenderer.invoke('start-scanner', duplex),
+  onScannerResponse: (callback: (response: any) => void) => {
+    const handler = (event: any, response: any) => callback(response);
+    ipcRenderer.on('scanner-response', handler);
+    return handler; // Retorna o handler para remoção posterior
+  },
+  removeScannerResponseListener: (handler: any) => {
+    if (handler) {
+      ipcRenderer.removeListener('scanner-response', handler);
+    }
+  },
+  
   // APIs de diálogo
   showMessageBox: (options: any) => ipcRenderer.invoke('show-message-box', options),
   showSaveDialog: (options: any) => ipcRenderer.invoke('show-save-dialog', options),
@@ -44,6 +59,11 @@ declare global {
       getUSBDevices: () => Promise<any[]>;
       getSerialPorts: () => Promise<any[]>;
       serialWrite: (port: string, data: string) => Promise<boolean>;
+      getScanners: () => Promise<any[]>;
+      checkScannerConnection: () => Promise<{ connected: boolean; scannerName?: string; error?: string }>;
+      startScanner: (duplex: boolean) => Promise<void>;
+      onScannerResponse: (callback: (response: any) => void) => any;
+      removeScannerResponseListener: (handler: any) => void;
       showMessageBox: (options: any) => Promise<any>;
       showSaveDialog: (options: any) => Promise<any>;
       showOpenDialog: (options: any) => Promise<any>;

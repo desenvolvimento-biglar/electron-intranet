@@ -8,6 +8,7 @@ export interface AppConfig {
   allowedOrigins: string[];
   autoStart: boolean;
   logLevel: 'error' | 'warn' | 'info' | 'debug';
+  defaultScannerId?: string;
   deviceSettings: {
     enablePrinter: boolean;
     enableCamera: boolean;

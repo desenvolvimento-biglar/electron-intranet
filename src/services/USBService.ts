@@ -157,10 +157,10 @@ export class USBService extends DeviceService {
       const { execSync } = require('child_process');
       
       // Comando PowerShell para obter dispositivos USB
-      const command = `
-        Get-WmiObject -Class Win32_USBControllerDevice | 
+      const command = `powershell.exe -Command "
+        Get-CimInstance -ClassName Win32_USBControllerDevice | 
         ForEach-Object { 
-          $device = Get-WmiObject -Class Win32_PnPEntity -Filter "DeviceID='$($_.Dependent.Split('=')[1].Replace('\\"',''))'"
+          \\$device = Get-CimInstance -ClassName Win32_PnPEntity -Filter \\"DeviceID='\\$(\\$_.Dependent.Split('=')[1].Replace('\\\\\\"',''))'\\"
           if ($device) {
             @{
               DeviceID = $device.DeviceID
@@ -283,10 +283,7 @@ export class USBService extends DeviceService {
     try {
       const { execSync } = require('child_process');
       
-      const command = `
-        Get-WmiObject -Class Win32_PnPEntity -Filter "DeviceID='${deviceId}'" | 
-        Select-Object * | ConvertTo-Json
-      `;
+      const command = `powershell.exe -Command "Get-CimInstance -ClassName Win32_PnPEntity -Filter \\"DeviceID='${deviceId}'\\" | Select-Object * | ConvertTo-Json"`;
 
       const output = execSync(command, { encoding: 'utf8' });
       return JSON.parse(output);

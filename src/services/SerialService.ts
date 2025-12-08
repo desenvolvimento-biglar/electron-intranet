@@ -257,12 +257,8 @@ export class SerialService extends DeviceService {
     try {
       const { execSync } = require('child_process');
       
-      // Listar portas COM usando WMI
-      const command = `
-        Get-WmiObject -Class Win32_SerialPort | 
-        Select-Object DeviceID, Name, Description, Manufacturer, PNPDeviceID | 
-        ConvertTo-Json
-      `;
+      // Listar portas COM usando PowerShell
+      const command = `powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object DeviceID, Name, Description, Manufacturer, PNPDeviceID | ConvertTo-Json"`;
 
       const output = execSync(command, { encoding: 'utf8' });
       

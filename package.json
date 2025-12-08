@@ -32,13 +32,18 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^20.10.0",
+    "@types/pdfkit": "^0.17.4",
     "electron": "^28.0.0",
     "electron-builder": "^24.6.4",
     "typescript": "^5.3.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^4.18.2",
+    "node-scanner": "^1.2.1",
+    "pdfkit": "^0.17.2",
+    "sharp": "^0.34.5",
     "socket.io": "^4.7.4"
   },
   "optionalDependencies": {

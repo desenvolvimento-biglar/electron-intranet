@@ -228,7 +228,7 @@ export class CameraService extends DeviceService {
       const { execSync } = require('child_process');
       
       // Comando PowerShell para listar dispositivos de imagem
-      const command = `Get-WmiObject -Class Win32_PnPEntity | Where-Object {$_.Name -match "camera|webcam|imaging"} | Select-Object Name, DeviceID, Status | ConvertTo-Json`;
+      const command = `powershell.exe -Command "Get-CimInstance -ClassName Win32_PnPEntity | Where-Object {\$_.Name -match 'camera|webcam|imaging'} | Select-Object Name, DeviceID, Status | ConvertTo-Json"`;
       
       const output = execSync(command, { encoding: 'utf8' });
       const devices = JSON.parse(output);
@@ -261,7 +261,7 @@ export class CameraService extends DeviceService {
       const { execSync } = require('child_process');
       
       // Listar dispositivos USB relacionados a câmeras
-      const command = `Get-WmiObject -Class Win32_USBHub | Where-Object {$_.Name -match "camera|video|imaging"} | Select-Object Name, DeviceID | ConvertTo-Json`;
+      const command = `powershell.exe -Command "Get-CimInstance -ClassName Win32_USBHub | Where-Object {\$_.Name -match 'camera|video|imaging'} | Select-Object Name, DeviceID | ConvertTo-Json"`;
       
       const output = execSync(command, { encoding: 'utf8' });
       
