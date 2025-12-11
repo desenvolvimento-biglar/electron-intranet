@@ -38,8 +38,9 @@ dist/
 build/
 out/
 
-# Electron build output
-release/
+# Electron build output - ignora tudo exceto ZIPs
+release/*
+!release/*.zip
 app/
 packages/
 

@@ -1,0 +1,1281 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Como Instalar - Intranet Desktop</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.8;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .header p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Container */
+      .container {
+        max-width: 850px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
+
+      /* Intro Box */
+      .intro-box {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        margin: -40px 20px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+        max-width: 850px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .intro-box h2 {
+        color: #1d4ed8;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+      }
+
+      .intro-box p {
+        color: #666;
+        font-size: 1.1rem;
+      }
+
+      .intro-icons {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+      }
+
+      .intro-icon {
+        text-align: center;
+      }
+
+      .intro-icon .icon {
+        font-size: 48px;
+        margin-bottom: 8px;
+      }
+
+      .intro-icon span {
+        display: block;
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      /* Steps Container */
+      .steps-container {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .steps-title {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #2563eb;
+      }
+
+      .steps-title .number {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        flex-shrink: 0;
+      }
+
+      .steps-title h2 {
+        color: #1d4ed8;
+        font-size: 1.6rem;
+      }
+
+      .steps-title p {
+        color: #666;
+        font-size: 0.95rem;
+        margin-top: 5px;
+      }
+
+      /* Individual Step */
+      .step {
+        display: flex;
+        gap: 20px;
+        margin: 30px 0;
+        padding: 25px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border-left: 5px solid #2563eb;
+      }
+
+      .step-badge {
+        flex-shrink: 0;
+        width: 45px;
+        height: 45px;
+        background: #2563eb;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        color: #1e40af;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .step-content p {
+        color: #555;
+        margin-bottom: 12px;
+      }
+
+      /* Download Button */
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        margin: 15px 0;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+      }
+
+      .download-btn .icon {
+        font-size: 1.4rem;
+      }
+
+      /* Image Placeholder */
+      .image-box {
+        background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+        border: 3px dashed #818cf8;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .image-box .icon {
+        font-size: 60px;
+        margin-bottom: 10px;
+      }
+
+      .image-box p {
+        color: #4f46e5;
+        font-weight: 500;
+      }
+
+      .image-box small {
+        color: #6366f1;
+        display: block;
+        margin-top: 5px;
+      }
+
+      /* Window Mockup */
+      .window {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        margin: 20px 0;
+        overflow: hidden;
+      }
+
+      .window-bar {
+        background: linear-gradient(180deg, #f0f0f0, #e0e0e0);
+        padding: 12px 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .window-btn {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .window-btn.red {
+        background: #ff5f56;
+      }
+      .window-btn.yellow {
+        background: #ffbd2e;
+      }
+      .window-btn.green {
+        background: #27ca40;
+      }
+
+      .window-title {
+        flex: 1;
+        text-align: center;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .window-body {
+        padding: 25px;
+        background: #fafafa;
+      }
+
+      /* Alert Boxes */
+      .alert {
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin: 20px 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .alert-icon {
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .alert-content h5 {
+        margin-bottom: 5px;
+        font-size: 1rem;
+      }
+
+      .alert-warning {
+        background: #fef3c7;
+        border-left: 5px solid #f59e0b;
+        color: #92400e;
+      }
+
+      .alert-info {
+        background: #dbeafe;
+        border-left: 5px solid #3b82f6;
+        color: #1e40af;
+      }
+
+      .alert-success {
+        background: #d1fae5;
+        border-left: 5px solid #10b981;
+        color: #065f46;
+      }
+
+      .alert-danger {
+        background: #fee2e2;
+        border-left: 5px solid #ef4444;
+        color: #991b1b;
+      }
+
+      /* Table */
+      .config-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .config-table th,
+      .config-table td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .config-table th {
+        background: #1e40af;
+        color: white;
+        font-weight: 600;
+      }
+
+      .config-table tr:nth-child(even) {
+        background: #f8fafc;
+      }
+
+      .config-table tr:hover {
+        background: #eff6ff;
+      }
+
+      .config-table code {
+        background: #fef3c7;
+        padding: 4px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+        color: #92400e;
+      }
+
+      /* Checklist */
+      .checklist {
+        list-style: none;
+        margin: 20px 0;
+      }
+
+      .checklist li {
+        padding: 15px 0 15px 50px;
+        position: relative;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 1.05rem;
+      }
+
+      .checklist li:last-child {
+        border-bottom: none;
+      }
+
+      .checklist li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        background: #10b981;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      /* Problem Cards */
+      .problem-card {
+        background: white;
+        border-radius: 12px;
+        margin: 20px 0;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .problem-header {
+        background: #fef3c7;
+        padding: 18px 22px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        color: #92400e;
+        font-size: 1.1rem;
+      }
+
+      .problem-solution {
+        padding: 22px;
+      }
+
+      .problem-solution h5 {
+        color: #059669;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .problem-solution ol {
+        margin-left: 25px;
+      }
+
+      .problem-solution li {
+        margin: 10px 0;
+        color: #555;
+      }
+
+      /* Footer */
+      .footer {
+        background: #1e293b;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      .footer p {
+        opacity: 0.8;
+        margin: 8px 0;
+      }
+
+      /* Quick Navigation */
+      .quick-nav {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 100;
+      }
+
+      .quick-nav a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: #f1f5f9;
+        border-radius: 10px;
+        margin: 8px 0;
+        text-decoration: none;
+        font-size: 1.5rem;
+        transition: all 0.2s;
+      }
+
+      .quick-nav a:hover {
+        background: #2563eb;
+        transform: scale(1.1);
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .quick-nav {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .step {
+          flex-direction: column;
+        }
+
+        .steps-container {
+          padding: 25px;
+        }
+
+        .intro-icons {
+          gap: 25px;
+        }
+
+        .download-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      /* Highlight text */
+      .highlight {
+        background: #fef3c7;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      kbd {
+        background: #e5e7eb;
+        padding: 4px 10px;
+        border-radius: 5px;
+        font-family: monospace;
+        font-size: 0.95rem;
+        border: 1px solid #d1d5db;
+        box-shadow: 0 2px 0 #d1d5db;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Quick Navigation -->
+    <nav class="quick-nav">
+      <a href="#passo1" title="Passo 1: Download">1️⃣</a>
+      <a href="#passo2" title="Passo 2: Instalação">2️⃣</a>
+      <a href="#passo3" title="Passo 3: Scanner">3️⃣</a>
+      <a href="#problemas" title="Problemas?">🔧</a>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+      <h1>📦 Intranet Desktop</h1>
+      <p>Guia de Instalação Simplificado</p>
+    </header>
+
+    <div class="container">
+      <!-- ========== PASSO 1 ========== -->
+      <section id="passo1" class="steps-container">
+        <div class="steps-title">
+          <div class="number">1</div>
+          <div>
+            <h2>Baixar os Arquivos</h2>
+            <p>Primeiro, você precisa baixar os arquivos necessários</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">A</div>
+          <div class="step-content">
+            <h4>📥 Baixe o Intranet Desktop (ZIP)</h4>
+            <p>
+              Clique no botão verde abaixo para baixar o aplicativo (arquivo ZIP
+              portable):
+            </p>
+
+            <a
+              href="https://github.com/biglar-dev/intranet-desktop/releases/latest/download/Intranet-Desktop-1.0.0-Portable.zip"
+              class="download-btn"
+              target="_blank"
+            >
+              <span class="icon">⬇️</span>
+              Baixar Intranet Desktop (ZIP)
+            </a>
+
+            <div class="alert alert-info">
+              <span class="alert-icon">💡</span>
+              <div class="alert-content">
+                <h5>Não consegue baixar pelo botão?</h5>
+                <p>Peça o arquivo para o setor de TI da sua empresa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">B</div>
+          <div class="step-content">
+            <h4>📥 Baixe o NAPS2 (Necessário para Scanner)</h4>
+            <p>
+              Se você vai usar <strong>scanner</strong>, precisa instalar também
+              o NAPS2:
+            </p>
+
+            <a
+              href="https://github.com/cyanfish/naps2/releases/download/v8.2.1/naps2-8.2.1-win-x64.zip"
+              class="download-btn"
+              target="_blank"
+            >
+              <span class="icon">⬇️</span>
+              Baixar NAPS2 (ZIP)
+            </a>
+
+            <p style="margin-top: 15px; color: #666">
+              <strong>Link alternativo (instalador):</strong>
+              <a
+                href="https://www.naps2.com/download"
+                target="_blank"
+                style="color: #2563eb"
+                >www.naps2.com/download</a
+              >
+            </p>
+
+            <div class="alert alert-warning">
+              <span class="alert-icon">⚠️</span>
+              <div class="alert-content">
+                <h5>Não usa scanner?</h5>
+                <p>Pode pular este download e ir direto para o Passo 2.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">C</div>
+          <div class="step-content">
+            <h4>📂 Onde o arquivo foi salvo?</h4>
+            <p>
+              O arquivo baixado geralmente fica na pasta
+              <strong>Downloads</strong>. Para encontrar:
+            </p>
+
+            <div class="window">
+              <div class="window-bar">
+                <span class="window-btn red"></span>
+                <span class="window-btn yellow"></span>
+                <span class="window-btn green"></span>
+                <span class="window-title">Como encontrar o arquivo</span>
+              </div>
+              <div class="window-body">
+                <ol style="margin-left: 20px">
+                  <li style="margin: 12px 0">
+                    Abra o <strong>Explorador de Arquivos</strong> (pasta
+                    amarela na barra de tarefas)
+                  </li>
+                  <li style="margin: 12px 0">
+                    No menu lateral esquerdo, clique em
+                    <strong>"Downloads"</strong>
+                  </li>
+                  <li style="margin: 12px 0">
+                    Procure o arquivo:
+                    <code
+                      style="
+                        background: #e5e7eb;
+                        padding: 3px 8px;
+                        border-radius: 4px;
+                      "
+                      >Intranet-Desktop-1.0.0-Portable.zip</code
+                    >
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <div class="image-box">
+              <div class="icon">📁</div>
+              <p>Pasta Downloads do Windows</p>
+              <small>Aqui estão os arquivos que você baixou</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PASSO 2 ========== -->
+      <section id="passo2" class="steps-container">
+        <div class="steps-title">
+          <div class="number">2</div>
+          <div>
+            <h2>Extrair e Usar o Aplicativo</h2>
+            <p>Como descompactar o arquivo ZIP e abrir o programa</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">A</div>
+          <div class="step-content">
+            <h4>📂 Encontre o arquivo ZIP baixado</h4>
+            <p>
+              Vá até a pasta <strong>Downloads</strong> e encontre o arquivo
+              <code
+                style="
+                  background: #e5e7eb;
+                  padding: 3px 8px;
+                  border-radius: 4px;
+                "
+                >Intranet-Desktop-1.0.0-Portable.zip</code
+              >
+            </p>
+
+            <div class="image-box">
+              <div class="icon">📁</div>
+              <p>Pasta Downloads → Intranet-Desktop-1.0.0-Portable.zip</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">B</div>
+          <div class="step-content">
+            <h4>📦 Extraia o arquivo ZIP</h4>
+            <p>
+              Clique com o <strong>botão direito</strong> no arquivo ZIP e
+              escolha:
+            </p>
+
+            <div class="window">
+              <div class="window-bar">
+                <span class="window-btn red"></span>
+                <span class="window-btn yellow"></span>
+                <span class="window-btn green"></span>
+                <span class="window-title">Menu do Botão Direito</span>
+              </div>
+              <div class="window-body" style="padding: 15px">
+                <div
+                  style="
+                    background: white;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    padding: 8px 0;
+                    width: 280px;
+                  "
+                >
+                  <div
+                    style="
+                      padding: 10px 20px;
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                    "
+                  >
+                    📂 Abrir
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 20px;
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                      background: #2563eb;
+                      color: white;
+                      font-weight: bold;
+                    "
+                  >
+                    📦 Extrair Tudo...
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 20px;
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                    "
+                  >
+                    📋 Copiar
+                  </div>
+                  <div
+                    style="
+                      padding: 10px 20px;
+                      display: flex;
+                      align-items: center;
+                      gap: 10px;
+                    "
+                  >
+                    🗑️ Excluir
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ol style="margin: 20px 0 20px 25px">
+              <li style="margin: 10px 0">
+                Clique com o <strong>botão direito</strong> no arquivo ZIP
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>"Extrair Tudo..."</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Escolha onde quer salvar (pode deixar o padrão)
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>"Extrair"</strong>
+              </li>
+            </ol>
+
+            <div class="alert alert-info">
+              <span class="alert-icon">💡</span>
+              <div class="alert-content">
+                <h5>Dica</h5>
+                <p>
+                  Extraia para uma pasta fixa como
+                  <strong>C:\Programas\Intranet Desktop</strong> ou deixe no
+                  Downloads mesmo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">C</div>
+          <div class="step-content">
+            <h4>▶️ Abra o programa</h4>
+            <p>
+              Dentro da pasta extraída, encontre e dê
+              <strong>dois cliques</strong> no arquivo:
+            </p>
+
+            <div style="text-align: center; margin: 25px 0">
+              <div
+                style="
+                  display: inline-block;
+                  background: #f1f5f9;
+                  padding: 25px 35px;
+                  border-radius: 12px;
+                "
+              >
+                <div style="font-size: 56px; margin-bottom: 10px">🖥️</div>
+                <div style="font-weight: bold; color: #1e40af">
+                  Intranet Desktop.exe
+                </div>
+                <small style="color: #666">Dê dois cliques para abrir</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">D</div>
+          <div class="step-content">
+            <h4>🛡️ Se aparecer aviso de segurança</h4>
+            <p>
+              Na primeira vez, o Windows pode mostrar um aviso. É só clicar em:
+            </p>
+
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                <strong>"Mais informações"</strong>
+              </li>
+              <li style="margin: 10px 0">
+                <strong>"Executar assim mesmo"</strong>
+              </li>
+            </ol>
+
+            <div class="alert alert-success">
+              <span class="alert-icon">✅</span>
+              <div class="alert-content">
+                <h5>Isso é normal!</h5>
+                <p>
+                  O Windows mostra este aviso porque o aplicativo é novo. É
+                  seguro continuar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">E</div>
+          <div class="step-content">
+            <h4>⭐ Criar atalho na Área de Trabalho (opcional)</h4>
+            <p>Para facilitar, você pode criar um atalho:</p>
+
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                Clique com o <strong>botão direito</strong> no arquivo
+                <strong>Intranet Desktop.exe</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>"Enviar para"</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>"Área de Trabalho (criar atalho)"</strong>
+              </li>
+            </ol>
+
+            <div style="text-align: center; margin: 25px 0">
+              <div
+                style="
+                  display: inline-block;
+                  background: #d1fae5;
+                  padding: 30px 40px;
+                  border-radius: 12px;
+                "
+              >
+                <div style="font-size: 72px; margin-bottom: 10px">🎉</div>
+                <div style="font-weight: bold; color: #065f46">
+                  Pronto! Aplicativo configurado!
+                </div>
+              </div>
+            </div>
+
+            <div class="alert alert-info">
+              <span class="alert-icon">📄</span>
+              <div class="alert-content">
+                <h5>Vai usar Scanner?</h5>
+                <p>
+                  Continue para o <strong>Passo 3</strong> para configurar o
+                  scanner.
+                </p>
+              </div>
+            </div>
+
+            <div class="alert alert-success">
+              <span class="alert-icon">🚀</span>
+              <div class="alert-content">
+                <h5>Não vai usar Scanner?</h5>
+                <p>
+                  Pronto! Dê <strong>dois cliques</strong> no ícone para abrir o
+                  aplicativo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PASSO 3 ========== -->
+      <section id="passo3" class="steps-container">
+        <div class="steps-title">
+          <div class="number">3</div>
+          <div>
+            <h2>Configurar o Scanner</h2>
+            <p>Apenas se você for usar scanner (opcional)</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">A</div>
+          <div class="step-content">
+            <h4>📥 Baixe e Extraia o NAPS2</h4>
+            <p>Se ainda não baixou, clique no botão abaixo:</p>
+
+            <a
+              href="https://github.com/cyanfish/naps2/releases/download/v8.2.1/naps2-8.2.1-win-x64.zip"
+              class="download-btn"
+              target="_blank"
+            >
+              <span class="icon">⬇️</span>
+              Baixar NAPS2 (ZIP)
+            </a>
+
+            <p style="margin-top: 15px">
+              <strong>Link alternativo (instalador):</strong>
+              <a
+                href="https://www.naps2.com/download"
+                target="_blank"
+                style="color: #2563eb"
+                >www.naps2.com/download</a
+              >
+            </p>
+
+            <p style="margin-top: 15px">
+              Depois de baixar, extraia o ZIP da mesma forma que o Intranet
+              Desktop:
+              <strong>botão direito</strong> →
+              <strong>"Extrair Tudo..."</strong> → <strong>"Extrair"</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">B</div>
+          <div class="step-content">
+            <h4>🔍 Abra o NAPS2</h4>
+            <p>
+              Dentro da pasta extraída, dê <strong>dois cliques</strong> no
+              arquivo <strong>NAPS2.exe</strong>
+            </p>
+
+            <div class="image-box">
+              <div class="icon">📄</div>
+              <p>Pasta do NAPS2 → NAPS2.exe</p>
+              <small>Dê dois cliques para abrir</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">C</div>
+          <div class="step-content">
+            <h4>➕ Crie um novo perfil</h4>
+            <p>Na janela do NAPS2:</p>
+
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                Clique no botão <strong>"Perfis"</strong> no menu superior
+              </li>
+              <li style="margin: 10px 0">Clique em <strong>"Novo"</strong></li>
+            </ol>
+
+            <div class="image-box">
+              <div class="icon">➕</div>
+              <p>Clique em "Perfis" → Depois em "Novo"</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">D</div>
+          <div class="step-content">
+            <h4>⚙️ Configure o perfil</h4>
+            <p>
+              Preencha as configurações <strong>exatamente</strong> como está na
+              tabela:
+            </p>
+
+            <table class="config-table">
+              <thead>
+                <tr>
+                  <th>Campo</th>
+                  <th>O que digitar/selecionar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nome do perfil</strong></td>
+                  <td><code>BrotherADF</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Driver</strong></td>
+                  <td>WIA</td>
+                </tr>
+                <tr>
+                  <td><strong>Dispositivo</strong></td>
+                  <td><em>Selecione seu scanner na lista</em></td>
+                </tr>
+                <tr>
+                  <td><strong>Origem do papel</strong></td>
+                  <td>Alimentador</td>
+                </tr>
+                <tr>
+                  <td><strong>Tamanho da folha</strong></td>
+                  <td>A4 (210 x 297 mm)</td>
+                </tr>
+                <tr>
+                  <td><strong>Resolução</strong></td>
+                  <td>200 dpi</td>
+                </tr>
+                <tr>
+                  <td><strong>Modo de cor</strong></td>
+                  <td>Colorido</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="alert alert-danger">
+              <span class="alert-icon">🚨</span>
+              <div class="alert-content">
+                <h5>MUITO IMPORTANTE!</h5>
+                <p>
+                  O nome do perfil deve ser <strong>exatamente</strong>
+                  <code
+                    style="
+                      background: #fee2e2;
+                      padding: 2px 8px;
+                      border-radius: 4px;
+                    "
+                    >BrotherADF</code
+                  >
+                </p>
+                <p>
+                  Escreva igual: letra maiúscula B, resto minúsculo, sem
+                  espaços.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">E</div>
+          <div class="step-content">
+            <h4>💾 Salve e teste</h4>
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                Clique em <strong>OK</strong> para salvar o perfil
+              </li>
+              <li style="margin: 10px 0">Coloque um papel no scanner</li>
+              <li style="margin: 10px 0">
+                Selecione o perfil <strong>BrotherADF</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>Digitalizar</strong>
+              </li>
+            </ol>
+
+            <div class="alert alert-success">
+              <span class="alert-icon">🎉</span>
+              <div class="alert-content">
+                <h5>Se funcionou, parabéns!</h5>
+                <p>
+                  Seu scanner está configurado. Agora pode usar no Intranet
+                  Desktop.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PROBLEMAS ========== -->
+      <section id="problemas" class="steps-container">
+        <div class="steps-title">
+          <div class="number">🔧</div>
+          <div>
+            <h2>Está com Problema?</h2>
+            <p>Veja as soluções para os problemas mais comuns</p>
+          </div>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-header">
+            <span>⚠️</span>
+            O aplicativo não abre
+          </div>
+          <div class="problem-solution">
+            <h5>✅ Tente isso:</h5>
+            <ol>
+              <li>Reinicie o computador</li>
+              <li>
+                Clique com o <strong>botão direito</strong> no ícone →
+                <strong>"Executar como administrador"</strong>
+              </li>
+              <li>Verifique se o antivírus não está bloqueando</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-header">
+            <span>⚠️</span>
+            Scanner não aparece / não funciona
+          </div>
+          <div class="problem-solution">
+            <h5>✅ Tente isso:</h5>
+            <ol>
+              <li>Verifique se o scanner está <strong>ligado</strong></li>
+              <li>Verifique se o cabo está <strong>conectado</strong></li>
+              <li>
+                Baixe o NAPS2 se ainda não baixou:
+                <a
+                  href="https://github.com/cyanfish/naps2/releases/download/v8.2.1/naps2-8.2.1-win-x64.zip"
+                  style="color: #2563eb"
+                  >Baixar NAPS2 (ZIP)</a
+                >
+              </li>
+              <li>Teste primeiro no próprio NAPS2 antes de usar no sistema</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-header">
+            <span>⚠️</span>
+            Erro: "Perfil BrotherADF não encontrado"
+          </div>
+          <div class="problem-solution">
+            <h5>✅ Solução:</h5>
+            <ol>
+              <li>Abra o NAPS2</li>
+              <li>
+                Crie o perfil seguindo o
+                <a href="#passo3" style="color: #2563eb">Passo 3</a> deste
+                manual
+              </li>
+              <li>
+                Certifique-se que o nome é <strong>exatamente</strong>
+                <code>BrotherADF</code>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-header">
+            <span>⚠️</span>
+            Tela branca / Sistema não carrega
+          </div>
+          <div class="problem-solution">
+            <h5>✅ Tente isso:</h5>
+            <ol>
+              <li>Verifique sua conexão com a internet</li>
+              <li>Pressione <kbd>Ctrl</kbd> + <kbd>R</kbd> para recarregar</li>
+              <li>Feche e abra o aplicativo novamente</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-header">
+            <span>⚠️</span>
+            Impressora não funciona
+          </div>
+          <div class="problem-solution">
+            <h5>✅ Tente isso:</h5>
+            <ol>
+              <li>Verifique se a impressora está <strong>ligada</strong></li>
+              <li>Teste imprimir uma página pelo Word ou Bloco de Notas</li>
+              <li>
+                Se não funcionar nem fora do aplicativo, o problema é na
+                impressora
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Suporte -->
+        <div
+          style="
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+          "
+        >
+          <h3 style="color: #1e40af; margin-bottom: 15px">
+            📞 Ainda com problemas?
+          </h3>
+          <p style="color: #555; margin-bottom: 20px">
+            Entre em contato com o suporte técnico da sua empresa.
+          </p>
+          <div
+            style="
+              display: flex;
+              gap: 15px;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div
+              style="
+                background: white;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+              "
+            >
+              <div style="font-size: 32px; margin-bottom: 8px">📧</div>
+              <strong>E-mail</strong>
+              <p style="color: #666">suporte@empresa.com.br</p>
+            </div>
+            <div
+              style="
+                background: white;
+                padding: 20px 30px;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+              "
+            >
+              <div style="font-size: 32px; margin-bottom: 8px">📱</div>
+              <strong>Telefone</strong>
+              <p style="color: #666">(XX) XXXX-XXXX</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p style="font-size: 1.2rem">
+        <strong>Intranet Desktop</strong> - Versão 1.0.0
+      </p>
+      <p>Manual atualizado em Dezembro de 2025</p>
+      <p style="margin-top: 15px">Desenvolvido com ❤️ pela equipe de TI</p>
+    </footer>
+  </body>
+</html>
