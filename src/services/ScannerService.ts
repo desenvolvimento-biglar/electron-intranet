@@ -392,11 +392,17 @@ export class ScannerService {
           return;
         }
 
-        // Usa o perfil BrotherADF configurado no NAPS2 GUI
+        // Seleciona perfil baseado no modo duplex
+        // BrotherADF = somente frente (Feeder)
+        // BrotherADF-Duplex = frente e verso (Duplex) com FlipDuplexedPages=true
+        const profileName = duplex ? 'BrotherADF-Duplex' : 'BrotherADF';
+        console.log('Perfil selecionado:', profileName, duplex ? '(Frente e Verso)' : '(Somente Frente)');
+
+        // Usa o perfil apropriado configurado no NAPS2
         const args = [
           '-o', outputPath,
           '--verbose',
-          '-p', 'BrotherADF',  // Usa o perfil configurado
+          '-p', profileName,  // Usa o perfil correto baseado no duplex
           '-f'  // Force overwrite
         ];
 
