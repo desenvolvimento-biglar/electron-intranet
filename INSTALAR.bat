@@ -9,6 +9,17 @@ echo.
 
 cd /d "%~dp0"
 
+:: Verifica se o executável já existe (distribuição pronta)
+if exist "release\win-unpacked\Intranet Desktop.exe" (
+    echo Executavel encontrado! Iniciando configuracao...
+    echo.
+    goto :configurar
+)
+
+:: Se não existe, precisa compilar
+echo Executavel nao encontrado. Iniciando build...
+echo.
+
 :: Verifica se Node.js está instalado
 where node >nul 2>&1
 if %errorLevel% neq 0 (
@@ -20,12 +31,12 @@ if %errorLevel% neq 0 (
     exit /b 1
 )
 
-echo [1/5] Node.js encontrado
+echo [1/4] Node.js encontrado
 for /f "tokens=*" %%i in ('node -v') do echo       Versao: %%i
 echo.
 
 :: Instala dependências
-echo [2/5] Instalando dependencias...
+echo [2/4] Instalando dependencias...
 echo       Isso pode demorar alguns minutos...
 call npm install
 if %errorLevel% neq 0 (
@@ -37,7 +48,7 @@ echo       OK - Dependencias instaladas
 echo.
 
 :: Compila TypeScript
-echo [3/5] Compilando TypeScript...
+echo [3/4] Compilando TypeScript...
 call npm run build
 if %errorLevel% neq 0 (
     echo [ERRO] Falha ao compilar TypeScript!
@@ -48,7 +59,7 @@ echo       OK - Compilacao concluida
 echo.
 
 :: Cria o executável
-echo [4/5] Criando executavel...
+echo [4/4] Criando executavel...
 echo       Isso pode demorar alguns minutos...
 call npm run dist
 if %errorLevel% neq 0 (
@@ -59,16 +70,13 @@ if %errorLevel% neq 0 (
 echo       OK - Executavel criado em release\
 echo.
 
+:configurar
 :: Executar instalação do NAPS2 e configurações
-echo [5/5] Finalizando instalacao...
 powershell -ExecutionPolicy Bypass -File "%~dp0install.ps1"
 
 echo.
 echo ========================================
-echo    BUILD CONCLUIDO COM SUCESSO!
+echo    INSTALACAO CONCLUIDA!
 echo ========================================
-echo.
-echo O executavel esta em: %~dp0release\win-unpacked\
-echo O instalador esta em: %~dp0release\
 echo.
 pause

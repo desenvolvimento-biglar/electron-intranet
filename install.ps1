@@ -2,23 +2,46 @@
 # Configura NAPS2 e cria atalho para o app
 
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  Configurador Intranet Desktop" -ForegroundColor Cyan
+Write-Host "  Instalador Intranet Desktop" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$releaseDir = Join-Path $scriptDir "release\win-unpacked"
-$targetPath = Join-Path $releaseDir "Intranet Desktop.exe"
+
+# Tenta encontrar o executável em diferentes locais
+$possiblePaths = @(
+    (Join-Path $scriptDir "release\win-unpacked\Intranet Desktop.exe"),
+    (Join-Path $scriptDir "win-unpacked\Intranet Desktop.exe"),
+    (Join-Path $scriptDir "Intranet Desktop.exe")
+)
+
+$targetPath = $null
+$releaseDir = $null
+
+foreach ($path in $possiblePaths) {
+    if (Test-Path $path) {
+        $targetPath = $path
+        $releaseDir = Split-Path -Parent $path
+        break
+    }
+}
 
 # Verifica se o executável existe
-if (-not (Test-Path $targetPath)) {
-    Write-Host "ERRO: Executavel nao encontrado em:" -ForegroundColor Red
-    Write-Host "      $targetPath" -ForegroundColor Yellow
+if (-not $targetPath) {
+    Write-Host "ERRO: Executavel nao encontrado!" -ForegroundColor Red
     Write-Host ""
-    Write-Host "Execute primeiro: npm run dist" -ForegroundColor Yellow
+    Write-Host "Locais verificados:" -ForegroundColor Yellow
+    foreach ($path in $possiblePaths) {
+        Write-Host "  - $path" -ForegroundColor Gray
+    }
+    Write-Host ""
     pause
     exit 1
 }
+
+Write-Host "Executavel encontrado em:" -ForegroundColor Green
+Write-Host "  $targetPath" -ForegroundColor Gray
+Write-Host ""
 
 # 1. Instalar NAPS2
 Write-Host "[1/3] Verificando NAPS2..." -ForegroundColor Yellow
