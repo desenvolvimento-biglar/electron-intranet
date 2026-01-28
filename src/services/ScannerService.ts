@@ -28,6 +28,7 @@ export interface ScanOptions {
 export class ScannerService {
   private configManager: ConfigManager;
   private connectedScanners: Map<string, ScannerInfo> = new Map();
+  private readonly TEMP_DIR = path.join(os.tmpdir(), 'intranet-desktop');
 
   constructor() {
     this.configManager = ConfigManager.getInstance();
@@ -39,9 +40,43 @@ export class ScannerService {
    */
   private async initializeService(): Promise<void> {
     try {
+      // Limpa arquivos temporários antigos ao iniciar
+      this.cleanupOldTempFiles();
       await this.refreshScanners();
     } catch (error) {
       console.error('Erro ao inicializar serviço de scanner:', error);
+    }
+  }
+
+  /**
+   * Limpa arquivos temporários com mais de 1 hora
+   */
+  private cleanupOldTempFiles(): void {
+    try {
+      if (!fs.existsSync(this.TEMP_DIR)) return;
+
+      const files = fs.readdirSync(this.TEMP_DIR);
+      const oneHourAgo = Date.now() - (60 * 60 * 1000); // 1 hora em ms
+
+      for (const file of files) {
+        const filePath = path.join(this.TEMP_DIR, file);
+        try {
+          const stats = fs.statSync(filePath);
+          if (stats.mtimeMs < oneHourAgo) {
+            if (stats.isDirectory()) {
+              fs.rmSync(filePath, { recursive: true, force: true });
+            } else {
+              fs.unlinkSync(filePath);
+            }
+            console.log('Arquivo temporário removido:', file);
+          }
+        } catch (err) {
+          // Ignora erros de arquivos individuais
+        }
+      }
+      console.log('Limpeza de arquivos temporários concluída');
+    } catch (error) {
+      console.error('Erro ao limpar arquivos temporários:', error);
     }
   }
 
@@ -378,13 +413,11 @@ export class ScannerService {
     return new Promise((resolve) => {
       try {
         const timestamp = Date.now();
-        // Usa pasta temporária do sistema para evitar problemas de permissão
-        const tempDir = path.join(os.tmpdir(), 'intranet-desktop');
-        const outputPath = path.join(tempDir, `scan_${timestamp}.pdf`);
+        const outputPath = path.join(this.TEMP_DIR, `scan_${timestamp}.pdf`);
         
         // Cria diretório temp se não existir
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir, { recursive: true });
+        if (!fs.existsSync(this.TEMP_DIR)) {
+          fs.mkdirSync(this.TEMP_DIR, { recursive: true });
         }
 
         // Caminho do NAPS2 Console
