@@ -1010,7 +1010,7 @@
         <div class="step">
           <div class="step-badge">D</div>
           <div class="step-content">
-            <h4>⚙️ Configure o perfil</h4>
+            <h4>⚙️ Configure o perfil SIMPLEX (somente frente)</h4>
             <p>
               Preencha as configurações <strong>exatamente</strong> como está na
               tabela:
@@ -1082,7 +1082,7 @@
         <div class="step">
           <div class="step-badge">E</div>
           <div class="step-content">
-            <h4>💾 Salve e teste</h4>
+            <h4>💾 Salve e teste o perfil Simplex</h4>
             <ol style="margin: 15px 0 15px 25px">
               <li style="margin: 10px 0">
                 Clique em <strong>OK</strong> para salvar o perfil
@@ -1097,12 +1097,155 @@
             </ol>
 
             <div class="alert alert-success">
+              <span class="alert-icon">✅</span>
+              <div class="alert-content">
+                <h5>Se funcionou, continue para criar o perfil Duplex!</h5>
+                <p>
+                  O perfil Simplex está pronto. Agora vamos criar o perfil para
+                  digitalizar frente e verso.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">F</div>
+          <div class="step-content">
+            <h4>➕ Crie o perfil DUPLEX (frente e verso)</h4>
+            <p>
+              Repita o processo para criar um <strong>segundo perfil</strong>
+              para digitalização duplex:
+            </p>
+
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                Clique no botão <strong>"Perfis"</strong> no menu superior
+              </li>
+              <li style="margin: 10px 0">Clique em <strong>"Novo"</strong></li>
+            </ol>
+
+            <p>
+              Preencha as configurações <strong>exatamente</strong> como está na
+              tabela:
+            </p>
+
+            <table class="config-table">
+              <thead>
+                <tr>
+                  <th>Campo</th>
+                  <th>O que digitar/selecionar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nome do perfil</strong></td>
+                  <td><code>BrotherADF-Duplex</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Driver</strong></td>
+                  <td>WIA</td>
+                </tr>
+                <tr>
+                  <td><strong>Dispositivo</strong></td>
+                  <td><em>Selecione seu scanner na lista</em></td>
+                </tr>
+                <tr>
+                  <td><strong>Origem do papel</strong></td>
+                  <td><strong>Duplex (frente e verso)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Tamanho da folha</strong></td>
+                  <td>A4 (210 x 297 mm)</td>
+                </tr>
+                <tr>
+                  <td><strong>Resolução</strong></td>
+                  <td>200 dpi</td>
+                </tr>
+                <tr>
+                  <td><strong>Modo de cor</strong></td>
+                  <td>Colorido</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="alert alert-warning">
+              <span class="alert-icon">⚠️</span>
+              <div class="alert-content">
+                <h5>Configuração Adicional para Duplex</h5>
+                <p>
+                  Em <strong>"Avançado"</strong> ou <strong>"Opções"</strong>,
+                  marque a opção <strong>"Inverter páginas duplex"</strong> ou
+                  <strong>"Flip duplexed pages"</strong> se disponível.
+                </p>
+              </div>
+            </div>
+
+            <div class="alert alert-danger">
+              <span class="alert-icon">🚨</span>
+              <div class="alert-content">
+                <h5>MUITO IMPORTANTE!</h5>
+                <p>
+                  O nome do perfil deve ser <strong>exatamente</strong>
+                  <code
+                    style="
+                      background: #fee2e2;
+                      padding: 2px 8px;
+                      border-radius: 4px;
+                    "
+                    >BrotherADF-Duplex</code
+                  >
+                </p>
+                <p>
+                  Escreva igual: BrotherADF-Duplex (com hífen, sem espaços).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-badge">G</div>
+          <div class="step-content">
+            <h4>💾 Salve e teste o perfil Duplex</h4>
+            <ol style="margin: 15px 0 15px 25px">
+              <li style="margin: 10px 0">
+                Clique em <strong>OK</strong> para salvar o perfil
+              </li>
+              <li style="margin: 10px 0">
+                Coloque um papel com <strong>conteúdo dos dois lados</strong> no
+                scanner
+              </li>
+              <li style="margin: 10px 0">
+                Selecione o perfil <strong>BrotherADF-Duplex</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Clique em <strong>Digitalizar</strong>
+              </li>
+              <li style="margin: 10px 0">
+                Verifique se <strong>ambos os lados</strong> foram digitalizados
+              </li>
+            </ol>
+
+            <div class="alert alert-info">
+              <span class="alert-icon">📋</span>
+              <div class="alert-content">
+                <h5>Resumo dos Perfis</h5>
+                <p>Você deve ter agora <strong>dois perfis</strong> configurados:</p>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                  <li><code>BrotherADF</code> - Para digitalizar somente a frente</li>
+                  <li><code>BrotherADF-Duplex</code> - Para digitalizar frente e verso</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="alert alert-success">
               <span class="alert-icon">🎉</span>
               <div class="alert-content">
-                <h5>Se funcionou, parabéns!</h5>
+                <h5>Parabéns! Configuração completa!</h5>
                 <p>
-                  Seu scanner está configurado. Agora pode usar no Intranet
-                  Desktop.
+                  Seus dois perfis de scanner estão configurados. Agora pode
+                  usar no Intranet Desktop.
                 </p>
               </div>
             </div>
@@ -1171,13 +1314,16 @@
             <ol>
               <li>Abra o NAPS2</li>
               <li>
-                Crie o perfil seguindo o
+                Crie os perfis seguindo o
                 <a href="#passo3" style="color: #2563eb">Passo 3</a> deste
                 manual
               </li>
               <li>
-                Certifique-se que o nome é <strong>exatamente</strong>
-                <code>BrotherADF</code>
+                Certifique-se que os nomes são <strong>exatamente</strong>:
+                <ul style="margin-top: 8px; margin-left: 20px;">
+                  <li><code>BrotherADF</code> (para simplex)</li>
+                  <li><code>BrotherADF-Duplex</code> (para frente e verso)</li>
+                </ul>
               </li>
             </ol>
           </div>
