@@ -29,6 +29,13 @@ class MainProcess {
   private serialService: SerialService;
   private scannerService: ScannerService;
   private apiServer: ApiServer;
+  private currentEnvironment: 'production' | 'homologation' = 'production';
+
+  // URLs dos ambientes
+  private readonly ENVIRONMENTS = {
+    production: 'https://intranet.grupobig.com.br',
+    homologation: 'https://intraneth.grupobig.com.br'
+  };
 
   constructor() {
     // Inicialização dos serviços
@@ -81,7 +88,7 @@ class MainProcess {
     this.mainWindow.maximize();
 
     // Carrega a URL da aplicação web ou arquivo local
-    const webUrl = process.env.WEB_URL || 'http://localhost:3000';
+    const webUrl = this.ENVIRONMENTS[this.currentEnvironment];
     this.mainWindow.loadURL(webUrl);
 
     // Mostra a janela quando estiver pronta
@@ -157,6 +164,27 @@ class MainProcess {
           //     this.checkUSBDevices();
           //   }
           // }
+        ]
+      },
+      {
+        label: 'Ambiente',
+        submenu: [
+          {
+            label: '🟢 Produção (intranet.grupobig.com.br)',
+            type: 'radio',
+            checked: this.currentEnvironment === 'production',
+            click: () => {
+              this.switchEnvironment('production');
+            }
+          },
+          {
+            label: '🟡 Homologação (intraneth.grupobig.com.br)',
+            type: 'radio',
+            checked: this.currentEnvironment === 'homologation',
+            click: () => {
+              this.switchEnvironment('homologation');
+            }
+          }
         ]
       },
       {
@@ -308,6 +336,28 @@ class MainProcess {
       type: 'info',
       title: 'Dispositivos USB',
       message: `Encontrados ${devices.length} dispositivos USB conectados`
+    });
+  }
+
+  private switchEnvironment(env: 'production' | 'homologation'): void {
+    if (this.currentEnvironment === env) return;
+
+    this.currentEnvironment = env;
+    const url = this.ENVIRONMENTS[env];
+    const envName = env === 'production' ? 'Produção' : 'Homologação';
+
+    // Atualiza o menu para refletir a seleção
+    this.setupMenu();
+
+    // Carrega a nova URL
+    this.mainWindow?.loadURL(url);
+
+    // Mostra notificação
+    dialog.showMessageBox(this.mainWindow!, {
+      type: 'info',
+      title: 'Ambiente Alterado',
+      message: `Ambiente alterado para: ${envName}`,
+      detail: `URL: ${url}`
     });
   }
 

@@ -67,14 +67,24 @@
     ],
     "extraResources": [
       {
-        "from": "installers/",
-        "to": "installers/",
+        "from": "naps2-profile/",
+        "to": "naps2-profile/",
         "filter": ["**/*"]
       }
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "signAndEditExecutable": false
     },
     "nsis": {
       "oneClick": false,
@@ -84,6 +94,9 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Intranet Desktop",
       "include": "installer/nsis-script.nsh"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-Portable.${ext}"
     }
   }
 }

@@ -1,6 +1,7 @@
-import { dialog, BrowserWindow } from 'electron';
+import { dialog, BrowserWindow, app } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 import { ConfigManager } from '../utils/ConfigManager';
 import { spawn } from 'child_process';
 import PDFDocument from 'pdfkit';
@@ -323,10 +324,11 @@ export class ScannerService {
       // Simula digitalização e retorna caminho do arquivo
       const timestamp = Date.now();
       const fileName = `scan_${timestamp}.${scanOptions.format}`;
-      const filePath = path.join(process.cwd(), 'scans', fileName);
+      // Usa pasta temporária do sistema para evitar problemas de permissão
+      const scanDir = path.join(os.tmpdir(), 'intranet-desktop', 'scans');
+      const filePath = path.join(scanDir, fileName);
 
       // Cria diretório se não existir
-      const scanDir = path.dirname(filePath);
       if (!fs.existsSync(scanDir)) {
         fs.mkdirSync(scanDir, { recursive: true });
       }
@@ -376,10 +378,11 @@ export class ScannerService {
     return new Promise((resolve) => {
       try {
         const timestamp = Date.now();
-        const outputPath = path.join(process.cwd(), 'temp', `scan_${timestamp}.pdf`);
+        // Usa pasta temporária do sistema para evitar problemas de permissão
+        const tempDir = path.join(os.tmpdir(), 'intranet-desktop');
+        const outputPath = path.join(tempDir, `scan_${timestamp}.pdf`);
         
         // Cria diretório temp se não existir
-        const tempDir = path.dirname(outputPath);
         if (!fs.existsSync(tempDir)) {
           fs.mkdirSync(tempDir, { recursive: true });
         }

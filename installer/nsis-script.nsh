@@ -5,17 +5,16 @@
   DetailPrint "Verificando NAPS2..."
   
   IfFileExists "$PROGRAMFILES64\NAPS2\NAPS2.Console.exe" naps2_exists
-    DetailPrint "Instalando NAPS2..."
-    ; Baixa e instala NAPS2 silenciosamente
-    NSISdl::download "https://github.com/cyanfish/naps2/releases/download/v8.2.1/naps2-8.2.1-win-x64.exe" "$TEMP\naps2-setup.exe"
-    ExecWait '"$TEMP\naps2-setup.exe" /S'
-    Delete "$TEMP\naps2-setup.exe"
+    DetailPrint "NAPS2 nao encontrado. Instale manualmente de https://www.naps2.com/"
   naps2_exists:
   
   ; Copia o perfil do scanner para a pasta do NAPS2
   DetailPrint "Configurando perfil do scanner..."
+  CreateDirectory "$APPDATA\NAPS2"
   SetOutPath "$APPDATA\NAPS2"
-  File /r "${BUILD_RESOURCES_DIR}\naps2-profile\*.*"
+  
+  ; Usa /nonfatal para não falhar se o arquivo não existir
+  File /nonfatal "${PROJECT_DIR}\naps2-profile\profiles.xml"
   
 !macroend
 
